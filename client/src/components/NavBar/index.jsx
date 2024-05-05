@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./NavBar.css";
+import CIcon from '@coreui/icons-react'
+import { cilHome, cilNotes, cilUser, cilAccountLogout, cil3d } from '@coreui/icons'
 
 const NavBar = () => {
   const location = useLocation();
@@ -12,27 +14,28 @@ const NavBar = () => {
   return (
     <nav className="navbar">
       <div className="logo">
-        <img src="./Images/logo.png" alt="Logo" />
+        <CIcon icon={cil3d} size="3xl" />
+        <p>IoT Smart Room</p>
       </div>
       <div className="navbar-content">
         <Link to="/Dashboard" className={getNavItemClass("/Dashboard")} id="mainFunction">
-          <img src="./Images/Dashboard.png" alt="Add Icon" />
-          <p>Dashboard</p>
+            <CIcon className="nav-icon" icon={cilHome} size="xxl" style={{'--ci-primary-color': 'black'}} />
+            <p>Dashboard</p>
         </Link>
 
         <Link to="/History" className={getNavItemClass("/History")}>
-          <img src="./Images/History.png" alt="Home Icon" />
-          <p>History</p>
+            <CIcon className="nav-icon" icon={cilNotes} size="xxl" style={{'--ci-primary-color': 'black'}} />
+            <p>History</p>
         </Link>
 
         <Link to="/Profile" className={getNavItemClass("/Profile")}>
-          <img src="./Images/Profile.png" alt="Profile Icon" />
-          <p>Profile</p>
+            <CIcon className="nav-icon" icon={cilUser} size="xxl" style={{'--ci-primary-color': 'black'}} />
+            <p>Profile</p>
         </Link>
 
         <Link to="/" className={getNavItemClass("/")} id="logout">
-          <img src="./Images/logout.png" alt="Logout Icon" />
-          <p>Log out</p>
+            <CIcon className="nav-icon text-danger" icon={cilAccountLogout} size="xxl" />
+            <p>Log out</p>
         </Link>
       </div>
     </nav>
