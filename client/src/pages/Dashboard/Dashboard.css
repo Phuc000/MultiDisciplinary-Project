@@ -1,0 +1,10 @@
+.dashboard {
+    width: 106%;
+    min-height: 100vh;
+}
+
+.content-section {
+    width: 100%;
+    padding: 2.5% 2.5% 0 2.5%;
+    background-color: #fdfdfd;
+  }
