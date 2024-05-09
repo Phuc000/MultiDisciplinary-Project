@@ -1,6 +1,7 @@
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import CurrentWeatherCard from "../../components/Card/CurrentWeatherCard";
 import getCurrentWeather from "../../service/weatherapi/getCurrentWeather";
 
 const Dashboard = ({ users }) => {
@@ -12,17 +13,16 @@ const Dashboard = ({ users }) => {
         setWeather(response);
     }
 
+    useEffect(() => {
+        getWeather();
+    }, []);
+
     return (
         <div className="dashboard">
             <div className="content-section">
                 <h3>Dashboard</h3>
-                <div className="weather">
-                    <button onClick={getWeather}>Get Weather</button>
-                    <div>
-                        <p>City: {weather.location?.name}</p>
-                        <p>Temperature: {weather.current?.temp_c}°C</p>
-                        <p>Condition: {weather.current?.condition?.text}</p>
-                    </div>
+                <div className="cards">
+                    <CurrentWeatherCard weather={weather} />
                 </div>
             </div>
         </div>
