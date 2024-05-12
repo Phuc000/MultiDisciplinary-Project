@@ -1,4 +1,4 @@
-.light-card {
+.fan-card {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -13,7 +13,7 @@
     max-width: 200px;
 }
 
-.light-condition {
+.fan-condition {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,4 +51,24 @@
   .toggle-container.off {
     background-color: #f44336; /* Red when off */
   }
+
+  .inline {
+    display: flex;
+  }
+
+  .collapse-btn {
+    height: 30px;
+    position: absolute;
+    margin-left: 80px;
+    background-color: white;
+    border: 0;
+    color: rgb(58, 56, 56);
+  }
+
+    .collapse-btn:hover {
+        background-color: rgb(192, 192, 192);
+    }
   
+  .collapse-speed {
+    position: absolute;
+  }
