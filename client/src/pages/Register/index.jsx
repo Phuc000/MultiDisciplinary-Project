@@ -17,6 +17,40 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
+// TODO: Replace the following with your app's Firebase project configuration
+// See: https://firebase.google.com/docs/web/learn-more#config-object
+const firebaseConfig = {
+  apiKey: "AIzaSyBBSRvdrGMN-N1PusufTXr5Fr5walc4Ac4",
+  authDomain: "yolohome-e1c81.firebaseapp.com",
+  projectId: "yolohome-e1c81",
+  storageBucket: "yolohome-e1c81.appspot.com",
+  messagingSenderId: "603386736761",
+  appId: "1:603386736761:web:050b02dd9227ed2519a4a8",
+  measurementId: "G-5Z8VZ929H1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
+
+function updateUsername(e) {
+  updateProfile(auth.currentUser, {
+    displayName: e,
+  }).then(() => {
+    // Profile updated!
+    // ...
+  }).catch((error) => {
+    // An error occurred
+    // ...
+  });
+}
+
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -36,17 +70,27 @@ function Register() {
         console.log('Username: ', username);
         console.log('Email: ', email);
         console.log('Password: ', password);
-        // FetchRequest('api/AuthenticationApi/Register', 'POST', {
-        //     Email: email,
-        //     UserName: username,
-        //     Password: password,
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed up 
+            const user = userCredential.user;
+            console.log('User:', user);
+            updateUsername(username);
+            // ...
+            setPopupMessage('Account created successfully');
+            setShowPopup(true);
+            // setTimeout(() => {
+            //     window.location.href = '/';
+            // }, 1500);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error('Error:', errorCode, errorMessage);
+            // ..
+          });
             
         // }, successCallback, errorCallback);
-        setPopupMessage('Account created successfully');
-        setShowPopup(true);
-        setTimeout(() => {
-            window.location.href = '/';
-        }, 1500);
     };
 
     const successCallback = (data) => {

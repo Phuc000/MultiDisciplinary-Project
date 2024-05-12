@@ -19,9 +19,30 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import '@coreui/coreui/dist/css/coreui.min.css'
 import './Login.css'
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+// TODO: Replace the following with your app's Firebase project configuration
+// See: https://firebase.google.com/docs/web/learn-more#config-object
+const firebaseConfig = {
+  apiKey: "AIzaSyBBSRvdrGMN-N1PusufTXr5Fr5walc4Ac4",
+  authDomain: "yolohome-e1c81.firebaseapp.com",
+  projectId: "yolohome-e1c81",
+  storageBucket: "yolohome-e1c81.appspot.com",
+  messagingSenderId: "603386736761",
+  appId: "1:603386736761:web:050b02dd9227ed2519a4a8",
+  measurementId: "G-5Z8VZ929H1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
 
 function Login() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
@@ -29,17 +50,23 @@ function Login() {
     // Function to handle form submission
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Username: ', username);
+        console.log('Email: ', email);
         console.log('Password: ', password);
-        // FetchRequest('api/AuthenticationApi/Login', 'POST', {
-        //     UserName: username,
-        //     Password: password
-        //     }, successCallback, errorCallback);
-        setPopupMessage('Login successful');
-        setShowPopup(true);
-        setTimeout(() => {
-            window.location.href = '/dashboard';
-        }, 1500);
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log('User: ', user);
+            setPopupMessage('Login successful');
+            setShowPopup(true);
+            // ...
+            // setTimeout(() => {
+            //   window.location.href = '/dashboard';
+            // }, 1500);
+          })
+          .catch((error) => {
+            errorCallback(error);
+          });
     };
 
     const successCallback = (data) => {
@@ -58,7 +85,7 @@ function Login() {
       
     const errorCallback = (error) => {
         console.error('Error:', error);
-        setPopupMessage('Login failed. Wrong password or username.');
+        setPopupMessage('Login failed. Wrong password or email.');
         setShowPopup(true);
     }
 
@@ -77,7 +104,7 @@ function Login() {
                           <CInputGroupText>
                             <CIcon icon={cilUser} />
                           </CInputGroupText>
-                          <CFormInput placeholder="Username" autoComplete="username" onChange={(e) => setUsername(e.target.value)} required/>
+                          <CFormInput placeholder="Email" autoComplete="email" onChange={(e) => setEmail(e.target.value)} required/>
                         </CInputGroup>
                         <CInputGroup className="mb-4">
                           <CInputGroupText>
