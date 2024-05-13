@@ -5,6 +5,9 @@ import CurrentWeatherCard from "../../components/Card/CurrentWeatherCard";
 import getCurrentWeather from "../../service/weatherapi/getCurrentWeather";
 import LightCard from "../../components/Card/LightCard";
 import FanCard from "../../components/Card/FanCard";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
 
 const Dashboard = ({ users }) => {
     const [weather, setWeather] = useState({});
@@ -21,22 +24,43 @@ const Dashboard = ({ users }) => {
         getWeather();
     }, []);
 
-    useEffect(() => {
-        const now = new Date();
-        const currentHour = now.getHours();
-    
-        let greetingMessage = "";
-    
-        if (currentHour < 12) {
-          greetingMessage = "Good morning!";
-        } else if (currentHour < 18) {
-          greetingMessage = "Good afternoon!";
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/auth.user
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            let greetingMessage = "";
+            
+            if (currentHour < 12) {
+              greetingMessage = "Good morning!";
+            } else if (currentHour < 18) {
+              greetingMessage = "Good afternoon!";
+            } else {
+              greetingMessage = "Good evening!";
+            }
+        
+            greetingMessage += ` ${user.displayName}`;
+          
+            setGreeting(greetingMessage);
         } else {
-          greetingMessage = "Good evening!";
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            let greetingMessage = "";
+            
+            if (currentHour < 12) {
+              greetingMessage = "Good morning!";
+            } else if (currentHour < 18) {
+              greetingMessage = "Good afternoon!";
+            } else {
+              greetingMessage = "Good evening!";
+            }
+            setGreeting(greetingMessage);
         }
-    
-        setGreeting(greetingMessage);
-      }, []);
+      });
+
 
     return (
         <div className="dashboard">

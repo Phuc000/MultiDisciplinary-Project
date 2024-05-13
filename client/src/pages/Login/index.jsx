@@ -60,9 +60,9 @@ function Login() {
             setPopupMessage('Login successful');
             setShowPopup(true);
             // ...
-            // setTimeout(() => {
-            //   window.location.href = '/dashboard';
-            // }, 1500);
+            setTimeout(() => {
+              window.location.href = '/dashboard';
+            }, 1500);
           })
           .catch((error) => {
             errorCallback(error);

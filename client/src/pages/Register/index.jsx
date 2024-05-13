@@ -79,9 +79,9 @@ function Register() {
             // ...
             setPopupMessage('Account created successfully');
             setShowPopup(true);
-            // setTimeout(() => {
-            //     window.location.href = '/';
-            // }, 1500);
+            setTimeout(() => {
+                window.location.href = '/Dashboard';
+            }, 1500);
           })
           .catch((error) => {
             const errorCode = error.code;
