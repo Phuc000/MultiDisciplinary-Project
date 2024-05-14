@@ -5,6 +5,7 @@ import CurrentWeatherCard from "../../components/Card/CurrentWeatherCard";
 import getCurrentWeather from "../../service/weatherapi/getCurrentWeather";
 import LightCard from "../../components/Card/LightCard";
 import FanCard from "../../components/Card/FanCard";
+import SensorsCard from "../../components/Card/SensorsCard";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const auth = getAuth();
@@ -75,13 +76,18 @@ const Dashboard = ({ users }) => {
                         <img src="src/assets/background.jpg" alt="background_image" />
                     </div>
                 </div>
-                <div className="main-ada-content">
-                    <div className="cards">
-                        <LightCard light={light} />
-                    </div>
-                    <div className="cards">
-                        <FanCard />
-                    </div>
+                <div className="main-ada-content0">
+                  <div className="main-ada-content">
+                      <div className="cards">
+                          <LightCard light={light} />
+                      </div>
+                      <div className="cards">
+                          <FanCard />
+                      </div>
+                  </div>
+                  <div className="cards">
+                    <SensorsCard />
+                  </div>
                 </div>
             </div>
         </div>
