@@ -1,33 +1,52 @@
 import "./History.css";
-import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { db } from "../../../server/config"
+
+const auth = getAuth();
 
 const History = () => {
+    const [logs, setLogs] = useState([]);
+  
+    useEffect(() => {
+      const user = auth.currentUser; // assuming you have auth imported
+      if (user) {
+        const q = query(
+          collection(db, "Logs"), 
+          where("userId", "==", user.uid),
+          orderBy("timestamp", "desc")
+        );
+        const unsub = onSnapshot(q, (querySnapshot) => {
+          const logs = querySnapshot.docs.map(doc => doc.data());
+          setLogs(logs);
+        });
+        // Cleanup subscription on unmount
+        return () => unsub();
+      }
+    }, []);
+  
     return (
         <div className="history">
-            <div className="leftBackground">
-
+        <div className="MainContent">
+            <div className="historyTittle">
+                <h1>History</h1>
             </div>
-
-            <div className="rightHistory">
-                <div className="logo">
-                    <img src="./Images/logo.png" alt="Logo" />
-                </div>
-                <div className="welcomeHistory">
-                    <img src="./Images/historyImage.png" alt="hImage"></img>
-                    <p className="specialWelcome">Chào mừng</p>
-                    <p className="description">Yolohome history</p>
-                </div>
-
-                <div className="historyContent">
-                    <div className="historyTable">
-                        <h3>History</h3>
-                    </div>
-                </div>
-            </div>
+          <ul className="log-list">
+            <li className="log-item log-header">
+                <span className="log-time">Time</span>
+                <span className="log-activity">Activity</span>
+            </li>
+            {logs.map((log, index) => (
+              <li key={index} className="log-item">
+                <span className="log-time">{new Date(log.timestamp?.toDate()).toLocaleString()}</span>
+                <span className="log-activity">{log.activity}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+      </div>
     );
-}
-export default History;
+  };
+  
+  export default History;

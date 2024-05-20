@@ -2,8 +2,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { CFormRange } from '@coreui/react';
 import { CCollapse, CButton, CCard, CCardBody } from '@coreui/react';
+import { getAuth } from "firebase/auth";
+import { getFirestore, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../../../server/config";
 import './FanCard.css';
 import MQTT from 'mqtt';
+
+const auth = getAuth();
 
 const FanCard = () => {
     const [isOn, setIsOn] = useState(false);
@@ -19,7 +24,7 @@ const FanCard = () => {
             const client = MQTT.connect(connectUrl, {
                 clientId,
                 clean: true,
-                connectTimeout: 4000,
+                connectTimeout: 8000,
                 username: 'CSE_MultiProject',
                 password: '',
                 reconnectPeriod: 1000,
@@ -56,9 +61,18 @@ const FanCard = () => {
 
 
     const toggleFan = () => {
-      setIsOn(!isOn);
-      setVisible(false);
-      client && client.publish(`CSE_MultiProject/feeds/button2`, isOn ? '0' : '40');
+        setIsOn(!isOn);
+        setVisible(false);
+        client && client.publish(`CSE_MultiProject/feeds/button2`, isOn ? '0' : '40');
+        // Log fan status
+        const user = auth.currentUser; // assuming you have auth imported
+        if (user) {
+          addDoc(collection(db, "Logs"), {
+            userId: user.uid,
+            timestamp: serverTimestamp(),
+            activity: isOn ? "Fan turned off" : "Fan turned on"
+          });
+        }
     };
 
     const handleSpeedChange = (event) => {

@@ -16,7 +16,7 @@ const CurrentWeatherCard = ({ weather }) => {
                     <div className="overall-weather">
                         <div className="weather-condition">
                             <img src={weather.current?.condition?.icon} alt="weather icon" />
-                            <p>{weather.current?.condition?.text}</p>
+                            <p style={{maxWidth: 170 + 'px', textAlign: 'center'}}>{weather.current?.condition?.text}</p>
                         </div>
                         {/* <img src={weather.current?.condition?.icon} alt="weather icon" />
                         <p>Condition: {weather.current?.condition?.text}</p> */}

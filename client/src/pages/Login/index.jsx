@@ -21,6 +21,8 @@ import '@coreui/coreui/dist/css/coreui.min.css'
 import './Login.css'
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore"; 
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -36,6 +38,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 
 // Initialize Firebase Authentication and get a reference to the service
@@ -59,6 +62,12 @@ function Login() {
             console.log('User: ', user);
             setPopupMessage('Login successful');
             setShowPopup(true);
+            // Save login time and activity
+            addDoc(collection(db, "Logs"), {
+              userId: user.uid,
+              timestamp: serverTimestamp(),
+              activity: "login"
+            });
             // ...
             setTimeout(() => {
               window.location.href = '/dashboard';

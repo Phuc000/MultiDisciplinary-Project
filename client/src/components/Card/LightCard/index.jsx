@@ -1,7 +1,13 @@
 import React from "react";
 import { useState, useEffect} from "react";
+import { getAuth } from "firebase/auth";
+import { getFirestore, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../../../server/config";
 import './LightCard.css';
 import MQTT from 'mqtt';
+
+
+const auth = getAuth();
 
 const LightCard = ({ light }) => {
     const [isOn, setIsOn] = useState(false);
@@ -15,7 +21,7 @@ const LightCard = ({ light }) => {
             const client = MQTT.connect(connectUrl, {
                 clientId,
                 clean: true,
-                connectTimeout: 4000,
+                connectTimeout: 8000,
                 username: 'CSE_MultiProject',
                 password: '',
                 reconnectPeriod: 1000,
@@ -49,8 +55,18 @@ const LightCard = ({ light }) => {
         };
     }, []);
     const toggleLight = () => {
-      setIsOn(!isOn);
-      client && client.publish(`CSE_MultiProject/feeds/button1`, isOn ? '0' : '1');
+        setIsOn(!isOn);
+        client && client.publish(`CSE_MultiProject/feeds/button1`, isOn ? '0' : '1');
+
+        // Log light status
+        const user = auth.currentUser; // assuming you have auth imported
+        if (user) {
+          addDoc(collection(db, "Logs"), {
+            userId: user.uid,
+            timestamp: serverTimestamp(),
+            activity: isOn ? "Light turned off" : "Light turned on"
+          });
+        }
     };
 
     return (

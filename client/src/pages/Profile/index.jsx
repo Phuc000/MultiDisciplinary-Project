@@ -30,10 +30,12 @@ const Profile = () => {
 
     return (
         <div className="profile">
-            <h3>Profile</h3>
-            <div className="profile-info">
-                <p>Name: {user.displayName}</p>
-                <p>Email: {user.email}</p>
+            <div className="profileContent">
+                <h3>Profile</h3>
+                <div className="profile-info">
+                    <p>Name: {user.displayName}</p>
+                    <p>Email: {user.email}</p>
+                </div>
             </div>
         </div>
     );
