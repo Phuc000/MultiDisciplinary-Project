@@ -19,26 +19,10 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import '@coreui/coreui/dist/css/coreui.min.css'
 import './Login.css'
-import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore"; 
+import { db, app } from "../../../server/config";
 
-// TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
-const firebaseConfig = {
-  apiKey: "AIzaSyBBSRvdrGMN-N1PusufTXr5Fr5walc4Ac4",
-  authDomain: "yolohome-e1c81.firebaseapp.com",
-  projectId: "yolohome-e1c81",
-  storageBucket: "yolohome-e1c81.appspot.com",
-  messagingSenderId: "603386736761",
-  appId: "1:603386736761:web:050b02dd9227ed2519a4a8",
-  measurementId: "G-5Z8VZ929H1"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
 
 // Initialize Firebase Authentication and get a reference to the service

@@ -33,8 +33,9 @@ const Profile = () => {
             <div className="profileContent">
                 <h3>Profile</h3>
                 <div className="profile-info">
-                    <p>Name: {user.displayName}</p>
-                    <p>Email: {user.email}</p>
+                {user.photoURL && <img src={user.photoURL} alt="Profile" className="profile-photo" />}
+                    <p><strong>Name:</strong> {user.displayName}</p>
+                    <p><strong>Email:</strong> {user.email}</p>
                 </div>
             </div>
         </div>
