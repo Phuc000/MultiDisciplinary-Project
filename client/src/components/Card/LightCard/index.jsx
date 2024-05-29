@@ -3,6 +3,7 @@ import { useState, useEffect} from "react";
 import { getAuth } from "firebase/auth";
 import { getFirestore, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../../server/config";
+import adafruitkey from "../../../service/adafruit/adafruitkey";
 import './LightCard.css';
 import MQTT from 'mqtt';
 
@@ -23,7 +24,7 @@ const LightCard = ({ light }) => {
                 clean: true,
                 connectTimeout: 8000,
                 username: 'CSE_MultiProject',
-                password: '',
+                password: adafruitkey,
                 reconnectPeriod: 1000,
             });
 

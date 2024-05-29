@@ -5,6 +5,7 @@ import { CCollapse, CButton, CCard, CCardBody } from '@coreui/react';
 import { getAuth } from "firebase/auth";
 import { getFirestore, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../../server/config";
+import adafruitkey from "../../../service/adafruit/adafruitkey";
 import './FanCard.css';
 import MQTT from 'mqtt';
 
@@ -26,7 +27,7 @@ const FanCard = () => {
                 clean: true,
                 connectTimeout: 8000,
                 username: 'CSE_MultiProject',
-                password: '',
+                password: adafruitkey,
                 reconnectPeriod: 1000,
             });
 

@@ -71,4 +71,5 @@
   
   .collapse-speed {
     position: absolute;
+    z-index: 999;
   }

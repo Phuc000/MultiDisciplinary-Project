@@ -46,18 +46,29 @@ const SensorsCard = () => {
         <CCardBody>
             <h3>Sensors</h3>
             <div className="sensors">
-            <div>
-                <h4>Temperature</h4>
-                <p>{temp} °C</p>
-            </div>
-            <div>
-                <h4>Humidity</h4>
-                <p>{humid} %</p>
-            </div>
-            <div>
-                <h4>Light</h4>
-                <p>{light} lux</p>
-            </div>
+                <div className="flex">
+                    <img src="src/assets/sensor/themo.png" alt="temperature" />
+                    <div>
+                        <h5>Temperature</h5>
+                        <p>{temp} °C</p>
+                    </div>
+                </div>
+                <div className="flex-align">
+                    <div className="flex">
+                        <img className="humid_img" src="src/assets/sensor/humid.png" alt="humidity" />
+                        <div>
+                            <h5>Humidity</h5>
+                            <p>{humid} %</p>
+                        </div>
+                    </div>
+                    <div className="flex light-sensor">
+                        <img src="src/assets/sensor/light.png" alt="light" />
+                        <div style={{marginLeft : 3}}>
+                            <h5>Light</h5>
+                            <p>{light} lux</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </CCardBody>
         </CCard>
